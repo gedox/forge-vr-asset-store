@@ -53,7 +53,8 @@ async function render() {
       await viewer.show(asset.fileUrl)
     } catch (e) {
       nowLabel.textContent = `${asset.name} — preview failed`
-      console.error(e)
+      nowLabel.title = e?.message || String(e)
+      console.error('[viewer]', e)
     }
   }
 

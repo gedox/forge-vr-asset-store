@@ -744,7 +744,10 @@ async function downloadPack(res, req, params) {
 
 export default async function handler(req, res) {
   if (!sql) {
-    json(res, 500, { error: 'Database is not configured. Set DATABASE_URL.' })
+    json(res, 500, {
+      error:
+        'Database is not configured. Create a Neon (or Vercel Postgres) database, run schema.sql, and set DATABASE_URL — see README.md → "Deploying to Vercel".'
+    })
     return
   }
   const url = new URL(req.url, 'http://x')
