@@ -40,8 +40,9 @@ export function publicUser(user) {
   if (!user) return null
   return {
     id: user.id,
-    email: user.email,
-    displayName: user.displayName || user.email.split('@')[0],
+    email: user.email || undefined,
+    username: user.username || undefined,
+    displayName: user.displayName || user.username || (user.email ? user.email.split('@')[0] : ''),
     avatarUrl: user.avatarUrl || undefined
   }
 }
@@ -51,23 +52,32 @@ export function findUserByEmail(email) {
   return db().users.find((u) => u.email === target) || null
 }
 
+export function findUserByUsername(username) {
+  const target = String(username || '').trim().toLowerCase()
+  return db().users.find((u) => (u.username || '').toLowerCase() === target) || null
+}
+
 export function findUser(userId) {
   return db().users.find((u) => u.id === userId) || null
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const USERNAME_RE = /^[a-zA-Z0-9_.-]{2,24}$/
 
-export function registerUser({ email, password, displayName }) {
-  const clean = String(email || '').trim().toLowerCase()
-  if (!EMAIL_RE.test(clean)) throw badRequest('That does not look like an email address.')
+export function registerUser({ username, password }) {
+  const clean = String(username || '').trim()
+  if (!USERNAME_RE.test(clean)) {
+    throw badRequest('Use a username of 2–24 letters, numbers, dots, dashes or underscores.')
+  }
   if (!password || String(password).length < 8) {
     throw badRequest('Use a password of at least 8 characters.')
   }
-  if (findUserByEmail(clean)) throw conflict('An account with that email already exists.')
+  if (findUserByUsername(clean)) throw conflict('That username is already taken.')
   const user = {
     id: id(),
-    email: clean,
-    displayName: String(displayName || '').trim() || clean.split('@')[0],
+    email: '',
+    username: clean,
+    displayName: clean,
     passwordHash: hashPassword(String(password)),
     provider: 'password',
     avatarUrl: '',
@@ -78,12 +88,12 @@ export function registerUser({ email, password, displayName }) {
   return user
 }
 
-export function loginUser({ email, password }) {
-  const user = findUserByEmail(email)
+export function loginUser({ username, password }) {
+  const user = findUserByUsername(username)
   // Same message either way: telling an unauthenticated caller which half was wrong hands
   // them a way to enumerate accounts.
   if (!user || !verifyPassword(String(password || ''), user.passwordHash)) {
-    throw unauthorized('Email or password is wrong.')
+    throw unauthorized('Username or password is wrong.')
   }
   return user
 }

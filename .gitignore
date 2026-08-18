@@ -1,5 +1,6 @@
 node_modules/
 storage/
+ui-ux/
 *.log
 .env
 .DS_Store

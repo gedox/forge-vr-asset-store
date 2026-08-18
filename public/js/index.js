@@ -4,7 +4,7 @@
 // opens on an object instead of on a wall of equal cards.
 
 import { api } from './api.js'
-import { bytes, count, el, markNav, mosaic, mountAccount, sectionLabel, when } from './ui.js'
+import { bytes, count, cubeMark, el, markNav, mosaic, mountAccount, sectionLabel, when } from './ui.js'
 
 const results = document.getElementById('results')
 const sections = document.getElementById('sections')
@@ -57,7 +57,7 @@ function lead(pack) {
       'div',
       {},
       el('div', { class: 'kicker' }, 'Latest'),
-      el('h2', {}, pack.name),
+      el('h2', {}, cubeMark(), pack.name),
       el('p', {}, pack.description || `${count(pack.assetCount, 'asset')} in ${sectionLabel(pack.section).toLowerCase()}.`),
       el(
         'div',
@@ -79,7 +79,7 @@ function plate(pack, index) {
     el(
       'div',
       { class: 'body' },
-      el('div', { class: 'title' }, pack.name),
+      el('div', { class: 'title' }, cubeMark(), pack.name),
       el('p', { class: 'blurb' }, pack.description || ''),
       el('div', { class: 'by' }, pack.owner ? pack.owner.displayName : '')
     ),

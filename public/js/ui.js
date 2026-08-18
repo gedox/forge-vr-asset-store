@@ -73,6 +73,15 @@ export function markNav() {
   }
 }
 
+// A small wireframe-cube mark that sits beside a pack's name on the catalogue. It is the
+// store's only "logo" and echoes the .glb the pack actually contains.
+const CUBE_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 3 20 7v9l-8 5-8-5V7z"/><path d="M4 7l8 4 8-4"/><path d="M12 11v9"/></svg>'
+
+export function cubeMark() {
+  return el('span', { class: 'cube-mark', html: CUBE_SVG })
+}
+
 // A pack's chosen previews, in order, padded out to `slots` so a mosaic keeps its shape.
 export function coverTiles(pack, slots) {
   const byId = new Map((pack.assets || []).map((a) => [a.id, a]))

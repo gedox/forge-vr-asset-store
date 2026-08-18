@@ -107,26 +107,26 @@ async function run() {
 
   const reg = await call('/api/auth/register', {
     method: 'POST',
-    body: { email: 'Tester@example.com', password: 'longenough1', displayName: 'Tester' }
+    body: { username: 'Tester', password: 'longenough1' }
   })
   check('register succeeds', reg.status === 201, reg.text)
-  check('register signs you in', (await call('/api/me')).json?.user?.email === 'tester@example.com')
+  check('register signs you in', (await call('/api/me')).json?.user?.username === 'Tester')
 
   const dupe = await call('/api/auth/register', {
     method: 'POST',
-    body: { email: 'tester@example.com', password: 'longenough1' },
+    body: { username: 'tester', password: 'longenough1' },
     useCookie: false
   })
-  check('duplicate email refused', dupe.status === 409, dupe.text)
+  check('duplicate username refused', dupe.status === 409, dupe.text)
 
   const shortPw = await call('/api/auth/register', {
     method: 'POST',
-    body: { email: 'other@example.com', password: 'short' },
+    body: { username: 'other', password: 'short' },
     useCookie: false
   })
   check('short password refused', shortPw.status === 400)
 
-  const badLogin = await call('/api/auth/login', { method: 'POST', body: { email: 'tester@example.com', password: 'wrongwrong' }, useCookie: false })
+  const badLogin = await call('/api/auth/login', { method: 'POST', body: { username: 'tester', password: 'wrongwrong' }, useCookie: false })
   check('wrong password refused', badLogin.status === 401)
 
   // --- api key (what the desktop app uses) ---
@@ -220,7 +220,7 @@ async function run() {
   // --- ownership ---
   const strangerCookie = cookie
   cookie = ''
-  await call('/api/auth/register', { method: 'POST', body: { email: 'intruder@example.com', password: 'longenough2' } })
+  await call('/api/auth/register', { method: 'POST', body: { username: 'intruder', password: 'longenough2' } })
   const intruderPatch = await call(`/api/packs/${pack.id}`, { method: 'PATCH', body: { name: 'Stolen' } })
   check("another user cannot edit someone else's pack", intruderPatch.status === 403, intruderPatch.text)
   const intruderDelete = await call(`/api/packs/${pack.id}`, { method: 'DELETE' })

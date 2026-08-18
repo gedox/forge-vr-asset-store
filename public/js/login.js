@@ -4,7 +4,6 @@ import { el, setError } from './ui.js'
 const form = document.getElementById('form')
 const msg = document.getElementById('msg')
 const submit = document.getElementById('submit')
-const nameField = document.getElementById('name-field')
 const tabIn = document.getElementById('tab-in')
 const tabNew = document.getElementById('tab-new')
 
@@ -14,7 +13,6 @@ function paint() {
   const registering = mode === 'register'
   tabIn.setAttribute('aria-selected', String(!registering))
   tabNew.setAttribute('aria-selected', String(registering))
-  nameField.hidden = !registering
   submit.textContent = registering ? 'Create account' : 'Sign in'
   form.password.autocomplete = registering ? 'new-password' : 'current-password'
   setError(msg, null)
@@ -45,9 +43,8 @@ form.addEventListener('submit', async (e) => {
   submit.disabled = true
   setError(msg, null)
   const body = {
-    email: form.email.value.trim(),
-    password: form.password.value,
-    displayName: form.displayName?.value?.trim()
+    username: form.username.value.trim(),
+    password: form.password.value
   }
   try {
     if (mode === 'register') await api.register(body)
@@ -59,9 +56,9 @@ form.addEventListener('submit', async (e) => {
   }
 })
 
-// A first-timer landing on the sign-in tab with an unknown email gets nudged rather than
-// left guessing why it failed.
-form.email.addEventListener('input', () => {
+// A first-timer landing on the sign-in tab with an unknown username gets nudged rather
+// than left guessing why it failed.
+form.username.addEventListener('input', () => {
   if (msg.textContent.includes('wrong')) {
     msg.replaceChildren(el('p', { class: 'note' }, 'No account yet? Use “Create account”.'))
   }

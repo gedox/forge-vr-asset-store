@@ -15,7 +15,7 @@ sforge             # or: start it and open the browser in one go
 
 ## What it does
 
-- **Accounts** — email + password, or Google sign-in when configured.
+- **Accounts** — username + password, or Google sign-in when configured.
 - **Packs** — a named group of `.glb` assets, filed under **Props**, **Characters** or
   **Custom**. One creator cannot own two packs with the same name; that rule is what lets
   the desktop app decide between "make a new pack" and "add to the one I already have".
