@@ -49,39 +49,58 @@
 
       <section class="showcase" aria-label="Before and after">
         <div class="showcase-head">
-          <div class="kicker">Why Forge</div>
-          <h2>From a bare mesh to a living scene.</h2>
+          <div>
+            <div class="kicker">Why Forge</div>
+            <h2>From a bare mesh to a living scene.</h2>
+          </div>
           <p>
-            The left is the asset exactly as it ships — a clean <b>.glb</b>. The right is the
-            same file dropped into a game engine, untouched. No re-authoring, no conversion.
+            Every asset ships as a clean <b>.glb</b> — the small render is the file exactly
+            as you download it. The scene behind it is that same file, dropped into an
+            engine untouched. No re-authoring, no conversion.
           </p>
         </div>
         <div class="cases">
           <figure class="case">
-            <div class="frames">
-              <div class="frame">
+            <div class="scene">
+              <img
+                class="in-scene"
+                src="/showcase/planet-after.png"
+                alt="The planet asset placed in a game scene"
+                loading="lazy"
+              />
+              <div class="scene-tag"><span class="dot" aria-hidden="true"></span>In engine</div>
+              <div class="raw">
                 <img src="/showcase/planet-before.png" alt="The planet asset as a raw .glb render" loading="lazy" />
-                <figcaption><span class="tag">Asset</span> Planet</figcaption>
-              </div>
-              <div class="arrow" aria-hidden="true">→</div>
-              <div class="frame">
-                <img src="/showcase/planet-after.png" alt="The planet asset placed in a game scene" loading="lazy" />
-                <figcaption><span class="tag in">In game</span> Planet</figcaption>
+                <span class="raw-name num">planet.glb</span>
+                <span class="hop" aria-hidden="true">&#8594;</span>
               </div>
             </div>
+            <figcaption>
+              <b>Planet</b>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="note">placed as it shipped</span>
+            </figcaption>
           </figure>
           <figure class="case">
-            <div class="frames">
-              <div class="frame">
+            <div class="scene">
+              <img
+                class="in-scene"
+                src="/showcase/ufo-after.png"
+                alt="The UFO asset placed in a game scene"
+                loading="lazy"
+              />
+              <div class="scene-tag"><span class="dot" aria-hidden="true"></span>In engine</div>
+              <div class="raw">
                 <img src="/showcase/ufo-before.png" alt="The UFO asset as a raw .glb render" loading="lazy" />
-                <figcaption><span class="tag">Asset</span> UFO</figcaption>
-              </div>
-              <div class="arrow" aria-hidden="true">→</div>
-              <div class="frame">
-                <img src="/showcase/ufo-after.png" alt="The UFO asset placed in a game scene" loading="lazy" />
-                <figcaption><span class="tag in">In game</span> UFO</figcaption>
+                <span class="raw-name num">ufo.glb</span>
+                <span class="hop" aria-hidden="true">&#8594;</span>
               </div>
             </div>
+            <figcaption>
+              <b>UFO</b>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="note">placed as it shipped</span>
+            </figcaption>
           </figure>
         </div>
       </section>
