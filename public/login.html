@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in — Forge VR Asset Store</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="wrap bar">
+        <a class="wordmark" href="/">Forge <em>Asset Store</em></a>
+        <nav>
+          <a href="/index.html">Catalogue</a>
+        </nav>
+        <div class="who"></div>
+      </div>
+    </header>
+
+    <main class="wrap auth">
+      <div>
+        <h1>Bring your <em>packs</em>.</h1>
+        <p class="lede">
+          An account gets you a profile to publish packs from, and an API key the Forge VR
+          Asset Generator uses to send assets straight up from your library.
+        </p>
+      </div>
+
+      <div class="auth-card">
+        <div class="tabs" role="tablist">
+          <button id="tab-in" role="tab" aria-selected="true">Sign in</button>
+          <button id="tab-new" role="tab" aria-selected="false">Create account</button>
+        </div>
+
+        <form id="form">
+          <label class="field" id="name-field" hidden>
+            <span>Display name</span>
+            <input type="text" name="displayName" autocomplete="nickname" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input type="password" name="password" required minlength="8" autocomplete="current-password" />
+          </label>
+          <div id="msg"></div>
+          <button class="btn primary" id="submit" type="submit" style="width: 100%">Sign in</button>
+        </form>
+
+        <div id="google-block" hidden>
+          <div class="or">or</div>
+          <a class="btn google" href="/auth/google">Continue with Google</a>
+        </div>
+        <p class="note" id="google-note" hidden>
+          Google sign-in is off on this server. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET
+          to switch it on.
+        </p>
+      </div>
+    </main>
+
+    <footer class="wrap foot">
+      <span>Forge VR Asset Store</span>
+      <span>Passwords are stored as scrypt hashes; API keys only as digests.</span>
+    </footer>
+
+    <script type="module" src="/js/login.js"></script>
+  </body>
+</html>

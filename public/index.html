@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forge VR Asset Store</title>
+    <meta name="description" content="A catalogue of VR-ready 3D asset packs, in glTF binary (.glb)." />
+    <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="wrap bar">
+        <a class="wordmark" href="/">Forge <em>Asset Store</em></a>
+        <nav>
+          <a href="/index.html">Catalogue</a>
+          <a href="/profile.html">My packs</a>
+        </nav>
+        <div class="who" id="account"></div>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="cat-head">
+        <div>
+          <h1>Packs of <em>VR-ready</em> meshes, by the crate.</h1>
+          <p>
+            Every asset here is a glTF binary — drop it into Unity, Unreal, Godot or three.js
+            as it is. Sizes and triangle counts are listed because that is what you actually
+            need to know.
+          </p>
+        </div>
+        <div class="tools">
+          <label class="field" style="margin: 0">
+            <span>Search</span>
+            <input type="search" id="q" placeholder="crates, alien, lantern…" />
+          </label>
+          <label class="field" style="margin: 0">
+            <span>Order</span>
+            <select id="sort">
+              <option value="newest">Newest</option>
+              <option value="largest">Most assets</option>
+              <option value="name">Name</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <nav class="sections" id="sections" aria-label="Sections"></nav>
+
+      <div id="results"></div>
+    </main>
+
+    <footer class="wrap foot">
+      <span>Forge VR Asset Store</span>
+      <span>Uploads arrive from the Forge VR Asset Generator, or straight from your profile.</span>
+    </footer>
+
+    <script type="module" src="/js/index.js"></script>
+  </body>
+</html>

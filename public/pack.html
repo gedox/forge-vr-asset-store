@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pack — Forge VR Asset Store</title>
+    <link rel="stylesheet" href="/app.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/build/three.module.js",
+          "three/addons/": "/vendor/three/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="wrap bar">
+        <a class="wordmark" href="/">Forge <em>Asset Store</em></a>
+        <nav>
+          <a href="/index.html">Catalogue</a>
+          <a href="/profile.html">My packs</a>
+        </nav>
+        <div class="who" id="account"></div>
+      </div>
+    </header>
+
+    <main class="wrap" id="main">
+      <p class="note" style="padding-block: 3rem">Loading pack…</p>
+    </main>
+
+    <footer class="wrap foot">
+      <span>Forge VR Asset Store</span>
+      <span id="foot-note"></span>
+    </footer>
+
+    <script type="module" src="/js/pack.js"></script>
+  </body>
+</html>

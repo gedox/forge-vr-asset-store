@@ -1,0 +1,23 @@
+{
+  "name": "forge-vr-asset-store",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A storefront for VR-ready .glb asset packs, with an upload API the Forge VR Asset Generator publishes into.",
+  "main": "server/index.js",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node test/api.test.js"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "license": "MIT",
+  "bin": {
+    "sforge": "bin/sforge.js"
+  }
+}
