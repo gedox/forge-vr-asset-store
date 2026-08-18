@@ -31,7 +31,10 @@ function load() {
   ensureDirs()
   if (existsSync(DB_FILE)) {
     try {
-      const parsed = JSON.parse(readFileSync(DB_FILE, 'utf-8'))
+      // Tolerate a UTF-8 BOM: some editors and PowerShell write one, and JSON.parse
+      // rejects it outright even though the payload is otherwise fine.
+      const raw = readFileSync(DB_FILE, 'utf-8').replace(/^\uFEFF/, '')
+      const parsed = JSON.parse(raw)
       data = { ...structuredClone(EMPTY), ...parsed }
       for (const key of ['users', 'packs', 'assets', 'sessions', 'apiKeys']) {
         if (!Array.isArray(data[key])) data[key] = []
