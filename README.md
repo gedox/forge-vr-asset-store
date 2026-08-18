@@ -65,12 +65,12 @@ Everything is optional; the defaults run a local store with no setup.
 | `PUBLIC_URL` | `http://localhost:<port>` | public origin, used for OAuth redirects |
 | `FORGE_STORE_STORAGE` | `./storage` | uploads + `db.json` |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | unset | enables Google sign-in |
-| `GOOGLE_REDIRECT_URI` | `<PUBLIC_URL>/auth/google/callback` | must match the console entry |
+| `GOOGLE_REDIRECT_URI` | `<PUBLIC_URL>/api/auth/google/callback` | must match the console entry |
 
 ### Google sign-in
 
 1. In the Google Cloud console create an OAuth 2.0 **Web application** client.
-2. Add `http://localhost:4173/auth/google/callback` as an authorised redirect URI.
+2. Add `http://localhost:4173/api/auth/google/callback` as an authorised redirect URI.
 3. Start the server with `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` set.
 
 Without them the button is hidden and the sign-in page says so.
@@ -119,8 +119,12 @@ server/    node:http server — no framework, no native modules
   auth.js     scrypt passwords, sessions, API keys, Google OAuth
   packs.js    packs, assets, validation
   zip.js      stored-mode ZIP writer
+api/       Vercel serverless handler (same API, PostgreSQL + Blob)
+schema.sql the Postgres schema for the Vercel deployment
+vercel.json Vercel config (static public/ + functions)
 public/    the site: plain HTML, CSS and ES modules
-storage/   uploads and db.json (git-ignored)
+  vendor/three/  vendored three.js for the 3D viewer
+storage/   local uploads and db.json (git-ignored)
 test/      end-to-end API test
 ```
 
@@ -131,6 +135,32 @@ native build steps.
 ```bash
 npm test    # boots a server on a temp directory and drives the whole API
 ```
+
+## Deploying to Vercel
+
+The local `server/` is a stateful Node process with a file database, which Vercel cannot
+run (serverless, read-only filesystem). `api/[...path].js` is the same API backed by
+PostgreSQL (Neon) and Vercel Blob, and `vercel.json` serves the static site in `public/`.
+
+1. **Database** — create a Neon (or Vercel Postgres) database and run `schema.sql` once.
+   Set the connection string as `DATABASE_URL`.
+2. **Blob** — create a Vercel Blob store and set `BLOB_READ_WRITE_TOKEN`.
+3. **Google (optional)** — set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`, and register
+   `<your-domain>/api/auth/google/callback` as an authorised redirect URI. Leave unset to
+   hide the button.
+4. **Deploy** — `vercel` (or connect the repo in the dashboard). Optionally set
+   `PUBLIC_URL` to your domain; when unset it is derived from each request.
+
+Environment variables: `DATABASE_URL`, `BLOB_READ_WRITE_TOKEN`, `PUBLIC_URL`,
+`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and the limit knobs from `server/config.js`.
+
+Two differences from local:
+
+- **Upload size** — Vercel functions cap request bodies at ~4.5 MB, so a single `.glb`
+  larger than that cannot be uploaded through the Vercel API. Assets here are normally a
+  few hundred KB; the 25 MB guard rail only fully applies to the local server.
+- **File URLs** — assets and previews are served straight from Blob's public URLs instead
+  of `/files/...`.
 
 ## Licence
 

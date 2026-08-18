@@ -1,6 +1,7 @@
 node_modules/
 storage/
 ui-ux/
+.vercel/
 *.log
 .env
 .DS_Store

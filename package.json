@@ -14,6 +14,8 @@
     "test": "node test/api.test.js"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@vercel/blob": "^2.8.0",
     "three": "^0.170.0"
   },
   "license": "MIT",

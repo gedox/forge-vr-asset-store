@@ -42,6 +42,6 @@ export const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 30
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || ''
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || ''
 export const GOOGLE_ENABLED = !!(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET)
-export const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || `${PUBLIC_URL}/auth/google/callback`
+export const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || `${PUBLIC_URL}/api/auth/google/callback`
 
 export const SITE_NAME = 'Forge VR Asset Store'

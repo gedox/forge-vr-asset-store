@@ -20,7 +20,6 @@ import {
   MAX_THUMB_BYTES,
   PORT,
   PUBLIC_DIR,
-  ROOT,
   SECTIONS,
   SESSION_COOKIE,
   SESSION_TTL_MS,
@@ -123,7 +122,7 @@ const routes = [
     json(res, 200, { user: publicUser(user) })
   }],
 
-  ['GET', '/auth/google', ({ res }) => {
+  ['GET', '/api/auth/google', ({ res }) => {
     if (!GOOGLE_ENABLED) {
       throw badRequest('Google sign-in is not configured. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.')
     }
@@ -132,7 +131,7 @@ const routes = [
     redirect(res, googleAuthUrl(state))
   }],
 
-  ['GET', '/auth/google/callback', async ({ req, res, url }) => {
+  ['GET', '/api/auth/google/callback', async ({ req, res, url }) => {
     const state = url.searchParams.get('state')
     const expected = parseCookies(req)[OAUTH_STATE_COOKIE]
     // Without this check a third-party page could complete a sign-in on the visitor's
@@ -298,14 +297,11 @@ function serveStatic(req, res, pathname) {
   if (rel === '/' || rel === '') rel = '/index.html'
   // Pretty URLs: /packs → /packs.html when that page exists.
   if (!rel.includes('.') && existsSync(join(PUBLIC_DIR, rel + '.html'))) rel += '.html'
-  // three.js is served straight out of node_modules so the repository carries no vendored
-  // copy of a library that npm already knows how to fetch.
-  if (rel.startsWith('/vendor/three/')) {
-    return sendFile(res, join(ROOT, 'node_modules', 'three'), rel.slice('/vendor/three/'.length), { immutable: true })
-  }
+  // three.js is vendored in public/vendor/three so the same files serve locally and on
+  // Vercel (whose static host cannot reach node_modules).
   const full = join(PUBLIC_DIR, rel)
   if (!existsSync(full)) throw notFound('No such page.')
-  sendFile(res, PUBLIC_DIR, rel, { immutable: rel.startsWith('/fonts/') })
+  sendFile(res, PUBLIC_DIR, rel, { immutable: rel.startsWith('/fonts/') || rel.startsWith('/vendor/') || rel.startsWith('/showcase/') })
 }
 
 // --- server ------------------------------------------------------------------
