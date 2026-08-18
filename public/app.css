@@ -24,6 +24,7 @@
   --molten-ink: #1d4ed8;
   --molten-wash: rgba(37, 99, 235, 0.08);
   --good: #16a34a;
+  --raw-bg: #0b0f19;
 
   --display: 'Archivo', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --sans: 'Archivo', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -35,6 +36,27 @@
   --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
   --shadow-md: 0 10px 28px rgba(16, 24, 40, 0.1);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark theme: a cool, deep navy ground with the same single blue accent, so the store
+   keeps its calm corporate register at night instead of flipping to a neon marketplace. */
+:root[data-theme='dark'] {
+  --paper: #0d1220;
+  --paper-2: #141a2b;
+  --paper-3: #1c2436;
+  --ink: #eef1f7;
+  --ink-2: #a9b2c4;
+  --iron: #7a8599;
+  --rule: #222b40;
+  --rule-2: #33405c;
+  --molten: #5b93ff;
+  --molten-ink: #7aa9ff;
+  --molten-wash: rgba(91, 147, 255, 0.14);
+  --good: #3fc96f;
+  --raw-bg: #05070d;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
 }
 
 *,
@@ -174,6 +196,40 @@ img {
   align-items: center;
   gap: 0.75rem;
   white-space: nowrap;
+}
+
+/* light / dark switch */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  padding: 0;
+  font: inherit;
+  border: 1px solid var(--rule-2);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.theme-toggle svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  grid-area: 1 / 1;
+}
+.theme-toggle .moon,
+.theme-toggle .sun {
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+:root[data-theme='dark'] .theme-toggle .moon,
+:root[data-theme='light'] .theme-toggle .sun {
+  opacity: 0;
+  transform: scale(0.5);
 }
 
 /* ---------- generic controls ---------- */
@@ -480,7 +536,7 @@ select:focus {
   aspect-ratio: 8 / 7;
   object-fit: cover;
   border-radius: 6px;
-  background: var(--ink);
+  background: var(--raw-bg);
 }
 .case .raw .raw-name {
   display: block;
