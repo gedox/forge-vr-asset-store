@@ -51,6 +51,7 @@ header whose declared length matches the payload, and previews must be real PNGs
 npm link           # once, to put sforge on your PATH
 sforge             # open the catalogue
 sforge profile     # open your packs
+sforge sync        # push the local store up to the deployed backend
 sforge --port 5000 # somewhere else
 sforge --no-open   # just run the server
 ```
@@ -161,6 +162,35 @@ Two differences from local:
   few hundred KB; the 25 MB guard rail only fully applies to the local server.
 - **File URLs** — assets and previews are served straight from Blob's public URLs instead
   of `/files/...`.
+
+## Syncing local → deployed
+
+Your local store and the Vercel deployment keep their data in two separate places — the
+local one in `storage/db.json` + files on disk, the deployed one in Neon Postgres + Vercel
+Blob. **Pushing code to GitHub moves source, not data**, so local uploads and accounts do
+not reach the deployed site on their own. `sforge sync` (or `node bin/sync.js`) is the
+bridge: it reads the local store and upserts the same users, packs, assets and API keys
+into the database, and uploads any `.glb` / thumbnail files Blob does not already have. It
+preserves ids and password hashes and is idempotent, so re-running it only pushes what
+changed.
+
+```bash
+# one-time setup: put the Vercel credentials in .env (it is git-ignored)
+DATABASE_URL=postgres://...
+BLOB_READ_WRITE_TOKEN=vercel_blob_rw_...
+
+sforge sync        # run it whenever you want the deployed site to match this machine
+```
+
+To make it automatic, install the pre-push hook (once, per clone):
+
+```bash
+cp scripts/pre-push .git/hooks/pre-push   # on Windows (Git Bash) also: chmod +x
+```
+
+With the hook in place, every `git push` runs the sync first. If the credentials are
+missing the sync prints a note and the push goes ahead anyway, so it is safe to push code
+without `.env` present.
 
 ## Licence
 

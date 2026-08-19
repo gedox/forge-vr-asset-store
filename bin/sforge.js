@@ -34,6 +34,16 @@ const page = (args[0] || '').replace(/^\/+/, '')
 const PAGES = { profile: 'profile.html', packs: 'profile.html', catalogue: 'index.html', catalog: 'index.html' }
 const target = `http://localhost:${port}/${PAGES[page] ?? page}`
 
+// `sforge sync` — push the local store up to the deployed backend (see bin/sync.js).
+function runSync() {
+  const child = spawn(process.execPath, [join(root, 'bin', 'sync.js')], { cwd: root, stdio: 'inherit' })
+  child.on('error', (e) => {
+    console.error('[sforge] could not run sync:', e.message)
+    process.exit(1)
+  })
+  child.on('close', (code) => process.exit(code ?? 0))
+}
+
 function openBrowser(url) {
   if (noOpen) {
     console.log(`[sforge] ${url}`)
@@ -66,6 +76,11 @@ async function waitUntilUp(deadlineMs = 15000) {
 }
 
 async function main() {
+  if (page === 'sync') {
+    runSync()
+    return
+  }
+
   if (await isUp()) {
     console.log(`[sforge] store already running on port ${port}`)
     openBrowser(target)
