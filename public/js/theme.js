@@ -5,16 +5,14 @@
   var STORAGE = 'forge-theme'
   var root = document.documentElement
 
-  function systemPref() {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  }
-
+  // The store is a light product by default, whatever the operating system prefers.
+  // Dark is opt-in: it appears only once someone presses the toggle, and then it sticks.
   function current() {
     try {
       var saved = localStorage.getItem(STORAGE)
       if (saved === 'dark' || saved === 'light') return saved
     } catch (e) {}
-    return systemPref()
+    return 'light'
   }
 
   function apply(theme) {
