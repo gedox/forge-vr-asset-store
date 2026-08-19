@@ -6,14 +6,8 @@
       "maxDuration": 30
     }
   },
-  "routes": [
-    {
-      "src": "^/api/(.+)$",
-      "dest": "/api/index",
-      "transforms": [
-        { "type": "request.path", "op": "set", "args": "/api/$1" }
-      ]
-    }
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index" }
   ],
   "headers": [
     {

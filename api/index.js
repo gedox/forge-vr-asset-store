@@ -751,8 +751,15 @@ export default async function handler(req, res) {
     return
   }
   const url = new URL(req.url, 'http://x')
-  const pathname = url.pathname
+  let pathname = url.pathname
   const method = req.method
+
+  // Vercel rewrites `/api/:path*` to this function. Depending on how the platform routes,
+  // the function either sees the original `/api/packs/x` (rewrites preserve it) or the
+  // destination with the captured path passed as the `path` query param. Rebuild the path
+  // from whichever is present so nested routes resolve in both cases.
+  const rest = url.searchParams.get('path')
+  if (rest) pathname = '/api/' + rest
 
   const routes = [
     ['GET', '/api/health', () => json(res, 200, { ok: true, name: SITE_NAME })],
